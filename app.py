@@ -4,18 +4,17 @@ import secrets
 from datetime import timedelta
 
 app = Flask(__name__)
-# تنظیم کلید مخفی (از متغیر محیطی یا تصادفی)
+
+# ===== تنظیمات امنیتی =====
 app.secret_key = os.environ.get("SECRET_KEY", secrets.token_hex(16))
-# تنظیم ماندگاری سشن به ۳۰ روز
 app.permanent_session_lifetime = timedelta(days=30)
 
+# ===== صفحات اصلی =====
 @app.route('/')
 def home():
     """صفحه اصلی - نمایش سایت و مدیریت سشن کاربر"""
-    # ایجاد سشن دائمی
     session.permanent = True
     
-    # اگر کاربر در سشن نباشد، از کاربر مهمان استفاده کن
     if 'user_name' not in session:
         session['user_name'] = "کاربر مهمان"
         session['user_email'] = "guest@cinemachi.local"
@@ -27,13 +26,12 @@ def home():
                          user_name=user_name,
                          user_email=user_email)
 
+# ===== خروج از حساب =====
 @app.route('/logout')
 def logout():
     """خروج از حساب کاربری و پاک کردن سشن"""
-    # پاک کردن سشن
     session.clear()
     
-    # صفحه خروج با طراحی زیبا
     return """
     <!DOCTYPE html>
     <html lang="fa" dir="rtl">
@@ -125,7 +123,6 @@ def logout():
             <div class="timer">⏳ هدایت خودکار در <span id="countdown">3</span> ثانیه...</div>
         </div>
         <script>
-            // شمارش معکوس برای هدایت خودکار
             let seconds = 3;
             const countdownEl = document.getElementById('countdown');
             const interval = setInterval(function() {
@@ -141,6 +138,7 @@ def logout():
     </html>
     """
 
+# ===== API ها =====
 @app.route('/api/user')
 def get_user():
     """دریافت اطلاعات کاربر جاری"""
@@ -166,6 +164,7 @@ def get_session():
         "is_logged_in": "user_email" in session and session.get("user_email") != "guest@cinemachi.local"
     })
 
+# ===== مستندات API =====
 @app.route('/docs')
 def docs():
     """مستندات API"""
@@ -308,6 +307,7 @@ def docs():
     </html>
     """
 
+# ===== مدیریت خطاها =====
 @app.errorhandler(404)
 def not_found(error):
     """مدیریت خطای 404 - صفحه پیدا نشد"""
@@ -326,6 +326,7 @@ def server_error(error):
         "message": "مشکلی در سرور رخ داده است. لطفاً بعداً تلاش کنید."
     }), 500
 
+# ===== اجرا =====
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port, debug=False)

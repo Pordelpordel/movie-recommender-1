@@ -1,11 +1,10 @@
-from flask import Flask, jsonify, render_template, request, session
+from flask import Flask, jsonify, render_template, session
 import os
 
 app = Flask(__name__)
-app.secret_key = "your-secret-key-here"  # برای سشن نیاز است
+app.secret_key = "your-secret-key-here"  # کلید مخفی برای سشن
 
 # ===== اطلاعات کاربر (از دیتابیس یا سشن) =====
-# برای مثال، یک کاربر نمونه
 USER_DATA = {
     "name": "پوردل پوردل",
     "email": "m.pordell1383@gmail.com"
@@ -14,14 +13,23 @@ USER_DATA = {
 
 @app.route('/')
 def home():
-    # اگر کاربر وارد شده، اطلاعاتش را از سشن بگیرید
-    # برای نمایش نمونه، از USER_DATA استفاده می‌کنیم
-    user_name = session.get("user_name", USER_DATA["name"])
-    user_email = session.get("user_email", USER_DATA["email"])
+    # اگر کاربر در سشن نباشد، از اطلاعات ثابت استفاده کن
+    if 'user_name' not in session:
+        session['user_name'] = USER_DATA["name"]
+        session['user_email'] = USER_DATA["email"]
+    
+    user_name = session.get("user_name", "کاربر")
+    user_email = session.get("user_email", "")
     
     return render_template("index.html", 
                          user_name=user_name,
                          user_email=user_email)
+
+@app.route('/logout')
+def logout():
+    # حذف اطلاعات کاربر از سشن
+    session.clear()
+    return "شما از حساب خود خارج شدید. <a href='/'>بازگشت به صفحه اصلی</a>"
 
 @app.route('/api/health')
 def health():

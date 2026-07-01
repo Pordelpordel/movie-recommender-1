@@ -936,12 +936,11 @@
         <div class="header">
             <h1>🎬 <span>سینماچی</span></h1>
             <p class="subtitle" id="mainSubtitle">✨ هوشمندترین سیستم مدیریت فیلم ایران ✨</p>
-            <div class="user-info">
-                <span class="user-avatar" id="user-name">👤 {{ user_name }}</span>
-                <span id="user-email"> 📧 {{ user_email }}</span>
-                <span style="opacity:0.5; font-size:0.8rem;" id="userEmailDisplay"></span>
-                <button class="logout-btn" id="logoutBtn" onclick="logoutUser()">🚪 خروج</button>
-            </div>
+            <div class="user-profile">
+   		 <span class="user-name">👤 {{ user_name }}</span>
+  		 <span class="user-email">📧 {{ user_email }}</span>
+ 		 <a href="/logout" class="logout-btn">🚪 خروج</a>
+	    </div>
             <div class="badge-group">
                 <span class="badge">🎬 <span id="movieCount">0</span> فیلم</span>
                 <span class="badge">❤️ <span id="favCount">0</span> علاقه‌مندی</span>

@@ -273,19 +273,47 @@ function getCurrentRating(starsContainer) {
     return activeStars || 0;
 }
 
-// دریافت اطلاعات کاربر
-fetch('/api/user')
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById('user-name').textContent = data.name;
-        document.getElementById('user-email').textContent = data.email;
-    });
-
-function logout() {
-    // کد خروج
-    window.location.href = '/logout';
+// ذخیره اطلاعات کاربر در LocalStorage
+function setUser(name, email) {
+    localStorage.setItem('user_name', name);
+    localStorage.setItem('user_email', email);
 }
 
+// بازیابی اطلاعات کاربر از LocalStorage
+function getUser() {
+    const name = localStorage.getItem('user_name') || 'کاربر';
+    const email = localStorage.getItem('user_email') || '';
+    return { name, email };
+}
+
+// نمایش اطلاعات در صفحه
+function displayUser() {
+    const user = getUser();
+    document.getElementById('user-name').textContent = user.name;
+    document.getElementById('user-email').textContent = user.email;
+}
+
+// خروج از حساب
+function logout() {
+    localStorage.removeItem('user_name');
+    localStorage.removeItem('user_email');
+    window.location.reload();
+}
+
+// اجرا در زمان بارگذاری صفحه
+document.addEventListener('DOMContentLoaded', function() {
+    // اگر کاربر در LocalStorage نبود، از API بگیر
+    if (!localStorage.getItem('user_name')) {
+        fetch('/api/user')
+            .then(response => response.json())
+            .then(data => {
+                setUser(data.name, data.email);
+                displayUser();
+            });
+    } else {
+        displayUser();
+    }
+});
 // تابع نمایش اعلان
 function showNotification(message, type) {
     // ایجاد عنصر اعلان

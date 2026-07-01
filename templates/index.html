@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎬 سینماچی - سیستم کامل مدیریت فیلم</title>
+    <!-- لینک CSS فقط یک بار در هدر -->
     <link rel="stylesheet" href="/static/css/style.css">
-    <script src="/static/js/script.js"></script>
 </head>
 <body>
     <!-- ===== صفحه ورود ===== -->
@@ -32,10 +32,10 @@
             <h1>🎬 <span>سینماچی</span></h1>
             <p class="subtitle" id="mainSubtitle">✨ هوشمندترین سیستم مدیریت فیلم ایران ✨</p>
             <div class="user-profile">
-    		<span class="user-name">👤 {{ user_name }}</span>
-    		<span class="user-email">📧 {{ user_email }}</span>
-    		<button class="logout-btn" onclick="logoutUser()">🚪 خروج</button>
-	    </div>
+                <span class="user-name">👤 {{ user_name }}</span>
+                <span class="user-email">📧 {{ user_email }}</span>
+                <button class="logout-btn" onclick="logoutUser()">🚪 خروج</button>
+            </div>
             <div class="badge-group">
                 <span class="badge">🎬 <span id="movieCount">0</span> فیلم</span>
                 <span class="badge">❤️ <span id="favCount">0</span> علاقه‌مندی</span>
@@ -312,6 +312,7 @@
         </footer>
     </div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <!-- فقط یک بار و در انتهای body -->
+    <script src="/static/js/script.js"></script>
 </body>
 </html>

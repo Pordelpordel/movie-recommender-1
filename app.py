@@ -1,20 +1,32 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template, request, session
 import os
 
 app = Flask(__name__)
+app.secret_key = "your-secret-key-here"  # برای سشن نیاز است
+
+# ===== اطلاعات کاربر (از دیتابیس یا سشن) =====
+# برای مثال، یک کاربر نمونه
+USER_DATA = {
+    "name": "پوردل پوردل",
+    "email": "m.pordell1383@gmail.com"
+}
+# ===========================================
 
 @app.route('/')
 def home():
-    return jsonify({
-        "message": "Movie Recommender System",
-        "status": "running"
-    })
+    # اگر کاربر وارد شده، اطلاعاتش را از سشن بگیرید
+    # برای نمایش نمونه، از USER_DATA استفاده می‌کنیم
+    user_name = session.get("user_name", USER_DATA["name"])
+    user_email = session.get("user_email", USER_DATA["email"])
+    
+    return render_template("index.html", 
+                         user_name=user_name,
+                         user_email=user_email)
 
 @app.route('/api/health')
 def health():
     return jsonify({"status": "healthy"})
 
-# ===== کد جدید برای مستندات =====
 @app.route('/docs')
 def docs():
     return """
@@ -26,7 +38,6 @@ def docs():
         <li><b>GET /docs</b> - این صفحه</li>
     </ul>
     """
-# ================================
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))

@@ -273,6 +273,19 @@ function getCurrentRating(starsContainer) {
     return activeStars || 0;
 }
 
+// دریافت اطلاعات کاربر
+fetch('/api/user')
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('user-name').textContent = data.name;
+        document.getElementById('user-email').textContent = data.email;
+    });
+
+function logout() {
+    // کد خروج
+    window.location.href = '/logout';
+}
+
 // تابع نمایش اعلان
 function showNotification(message, type) {
     // ایجاد عنصر اعلان

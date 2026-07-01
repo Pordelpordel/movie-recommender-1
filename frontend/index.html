@@ -920,7 +920,7 @@
             <p class="subtitle" id="loginSubtitle">✨ برای ادامه، ایمیل خود را وارد کنید ✨</p>
             <div class="form-group">
                 <label>📧 آدرس ایمیل</label>
-                <input type="email" id="loginEmail" placeholder="example@email.com" value="user@example.com">
+                <input type="email" id="loginEmail" placeholder="example@email.com" >
             </div>
             <button class="login-btn" id="loginBtn" onclick="loginUser()">🚀 ورود / ثبت نام</button>
             <div class="error-msg" id="loginError"></div>
@@ -937,8 +937,8 @@
             <h1>🎬 <span>سینماچی</span></h1>
             <p class="subtitle" id="mainSubtitle">✨ هوشمندترین سیستم مدیریت فیلم ایران ✨</p>
             <div class="user-info">
-                <span class="user-avatar" id="userAvatar">👤</span>
-                <span id="userDisplayName">کاربر</span>
+                <span class="user-avatar" id="user-name">👤 {{ user_name }}</span>
+                <span id="user-email"> 📧 {{ user_email }}</span>
                 <span style="opacity:0.5; font-size:0.8rem;" id="userEmailDisplay"></span>
                 <button class="logout-btn" id="logoutBtn" onclick="logoutUser()">🚪 خروج</button>
             </div>
@@ -1009,7 +1009,7 @@
         <div id="search" class="tab-content">
             <h2>🔍 جستجو در TMDB</h2>
             <div class="form-group">
-                <label>نام فیلم (به انگلیسی)</label>
+                <label>نام فیلم </label>
                 <input type="text" id="searchInput" placeholder="مثال: The Matrix" onkeyup="searchMoviesDelayed()">
                 <div id="searchSuggestions" style="background:white; border-radius:10px; margin-top:5px; max-height:180px; overflow-y:auto; display:none; box-shadow:0 5px 15px rgba(0,0,0,0.1);"></div>
             </div>
@@ -1275,8 +1275,7 @@
                 { id: 7, name: "اینتراستلار", nameEn: "Interstellar", genre: "علمی تخیلی", rating: 8.6, year: "۲۰۱۴", director: "کریستوفر نولان", duration: 169, cast: "متیو مک‌کاناهی، آن هاتاوی", poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", desc: "گروهی از فضانوردان از میان یک کرمچاله سفر می‌کنند تا سیاره جدیدی برای سکونت انسان پیدا کنند.", status: "released" },
                 { id: 8, name: "تایتانیک", nameEn: "Titanic", genre: "عاشقانه", rating: 8.5, year: "۱۹۹۷", director: "جیمز کامرون", duration: 195, cast: "لئوناردو دیکاپریو، کیت وینسلت", poster: "https://image.tmdb.org/t/p/w500/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg", desc: "داستان عشق جک و رز در کشتی تایتانیک که به کوه یخ برخورد می‌کند.", status: "released" },
                 { id: 9, name: "اوپنهایمر", nameEn: "Oppenheimer", genre: "درام", rating: 8.4, year: "۲۰۲۳", director: "کریستوفر نولان", duration: 180, cast: "کیلیان مورفی، امیلی بلانت", poster: "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg", desc: "داستان جی. رابرت اوپنهایمر، فیزیکدانی که نقش کلیدی در ساخت بمب اتم داشت.", status: "released" },
-                { id: 10, name: "باربی", nameEn: "Barbie", genre: "کمدی", rating: 7.2, year: "۲۰۲۳", director: "گرتا گرویگ", duration: 114, cast: "مارگو رابی، رایان گاسلینگ", poster: "https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg", desc: "باربی به دلیل ناقص شدن‌هایش از باربی‌لند بیرون می‌رود و وارد دنیای واقعی می‌شود.", status: "showing" }
-            ];
+             ];
         }
 
         function createNewUserData(email) {

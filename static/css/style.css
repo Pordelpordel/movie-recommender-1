@@ -1,0 +1,708 @@
+/* استایل اصلی */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+    direction: rtl;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* هدر */
+header {
+    background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    flex-wrap: wrap;
+}
+
+nav li {
+    margin: 0 10px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+nav a:hover, nav li.active a {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 4px;
+    top: 100%;
+    right: 0;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* بخش اصلی */
+main {
+    padding: 2rem 0;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hero h2 {
+    color: #311b92;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+}
+
+.hero p {
+    color: #555;
+    font-size: 1.1rem;
+}
+
+/* کارت فیلم */
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.movie-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.movie-poster {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.movie-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.movie-rating {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(255, 193, 7, 0.9);
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.favorite-btn:hover {
+    background-color: white;
+    transform: scale(1.1);
+}
+
+.favorite-btn.active {
+    background-color: #f44336;
+    color: white;
+}
+
+.favorite-btn.active:hover {
+    background-color: #d32f2f;
+}
+
+.movie-info {
+    padding: 1.2rem;
+}
+
+.movie-info h3 {
+    margin-bottom: 0.5rem;
+    color: #1a237e;
+    font-size: 1.3rem;
+}
+
+.movie-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.genre, .year, .duration {
+    background-color: #e8eaf6;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    color: #3949ab;
+}
+
+.movie-description {
+    color: #666;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.movie-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.details-btn {
+    background-color: #3949ab;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.details-btn:hover {
+    background-color: #283593;
+}
+
+.rating-widget {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stars {
+    display: flex;
+    gap: 2px;
+}
+
+.stars i {
+    color: #ffc107;
+    cursor: pointer;
+    transition: color 0.2s;
+    font-size: 1.2rem;
+}
+
+.stars i:hover, .stars i.active {
+    color: #ff9800;
+}
+
+/* صفحه جزئیات */
+.back-to-home {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: #3949ab;
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.movie-details {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.movie-header {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.movie-poster-large {
+    flex: 0 0 300px;
+}
+
+.movie-poster-large img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.movie-header-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.movie-header-info h1 {
+    color: #1a237e;
+    margin-bottom: 1rem;
+    font-size: 2.2rem;
+}
+
+.movie-meta-large {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 1.5rem;
+}
+
+.movie-meta-large span {
+    background-color: #e8eaf6;
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.movie-actions-large {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+}
+
+.favorite-btn-details {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+
+.favorite-btn-details:hover {
+    background-color: #d32f2f;
+}
+
+.favorite-btn-details.active {
+    background-color: #757575;
+}
+
+.favorite-btn-details.active:hover {
+    background-color: #616161;
+}
+
+.rating-widget-large {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.rating-result {
+    font-weight: bold;
+    color: #1a237e;
+}
+
+.movie-description-full {
+    margin-bottom: 2rem;
+}
+
+.movie-description-full h2 {
+    color: #1a237e;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e8eaf6;
+    padding-bottom: 0.5rem;
+}
+
+.movie-description-full p {
+    line-height: 1.8;
+    color: #444;
+    font-size: 1.1rem;
+}
+
+.seasons-section {
+    margin-top: 2rem;
+}
+
+.seasons-section h2 {
+    color: #1a237e;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #e8eaf6;
+    padding-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.season-card {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #e0e0e0;
+}
+
+.season-card h3 {
+    color: #3949ab;
+    margin-bottom: 0.5rem;
+}
+
+.episodes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.episode-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+.episode-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.episode-header h4 {
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.episode-rating {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.episode-description {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+}
+
+.episode-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.episode-rating-widget {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.episode-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.episode-stars i {
+    color: #ffc107;
+    cursor: pointer;
+    transition: color 0.2s;
+    font-size: 1rem;
+}
+
+/* صفحه علاقه‌مندی‌ها */
+.favorites-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+    border-radius: 10px;
+}
+
+.favorites-header h1 {
+    color: #d81b60;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.no-favorites {
+    color: #666;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+}
+
+.remove-favorite {
+    background-color: #f44336;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.remove-favorite:hover {
+    background-color: #d32f2f;
+}
+
+/* صفحه پیشنهادات */
+.recommendations-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    border-radius: 10px;
+}
+
+.recommendations-header h1 {
+    color: #2e7d32;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.filter-section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-section h2 {
+    color: #1a237e;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #e8eaf6;
+    padding-bottom: 0.5rem;
+}
+
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: white;
+}
+
+.filter-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+
+.filter-btn:hover {
+    background-color: #388e3c;
+}
+
+.recommendations-results h2 {
+    color: #1a237e;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #e8eaf6;
+    padding-bottom: 0.5rem;
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.no-results h2 {
+    color: #d32f2f;
+    margin-bottom: 1rem;
+}
+
+/* فوتر */
+footer {
+    background-color: #1a237e;
+    color: white;
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+}
+
+/* رسپانسیو */
+@media (max-width: 768px) {
+    .movie-header {
+        flex-direction: column;
+    }
+
+    .movie-poster-large {
+        flex: 0 0 auto;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .movie-actions-large {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .movies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav li {
+        margin: 5px 0;
+    }
+
+    .dropdown-content {
+        position: static;
+        display: none;
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    .dropdown-content a {
+        color: white;
+        padding: 8px 16px;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+        position: static;
+    }
+}
+
+@media (max-width: 480px) {
+    .movies-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .movie-card {
+        margin: 0 10px;
+    }
+
+    .hero h2 {
+        font-size: 1.5rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+}

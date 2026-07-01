@@ -15,7 +15,7 @@ let userRatings = {};
 let comments = {};
 let currentDetailMovie = null;
 let currentPage = 1;
-const RESULTS_PER_PAGE = 12;  // از ۲۰ به ۱۲ کم کن
+const ITEMS_PER_PAGE = 8;
 let currentLang = localStorage.getItem('cinemachi_lang') || 'fa';
 let searchTimeout = null;
 
@@ -101,14 +101,23 @@ function loginUser() {
     showToast(`👋 خوش آمدید ${getUserDisplayName(email)}!`);
 }
 
+// ===== خروج از حساب =====
 function logoutUser() {
-    if (!confirm('آیا از خروج مطمئن هستید؟')) return;
-    localStorage.removeItem('cinemachi_current_user');
-    currentUser = null;
-    currentUserData = null;
-    document.getElementById('loginPage').style.display = 'flex';
-    document.getElementById('mainApp').style.display = 'none';
-    showToast('👋 شما خارج شدید');
+    if (confirm('آیا مطمئن هستید که می‌خواهید خارج شوید؟')) {
+        // حذف اطلاعات از LocalStorage
+        localStorage.removeItem('user_name');
+        localStorage.removeItem('user_email');
+        localStorage.removeItem('cinemachi_current_user');
+        
+        // حذف اطلاعات از Session (با درخواست به سرور)
+        fetch('/logout')
+            .then(() => {
+                window.location.href = '/';
+            })
+            .catch(() => {
+                window.location.href = '/';
+            });
+    }
 }
 
 function getUserDisplayName(email) {
@@ -350,8 +359,9 @@ function clearSearch() {
 // =============================================
 // کپی لینک فیلم و باز کردن فیلم با لینک
 // =============================================
-function copyMovieLink(movieId) {
-    const url = window.location.origin + '/?movie=' + movieId;
+function copyMovieLink() {
+    if (!currentDetailMovie) return;
+    const url = window.location.origin + '/?movie=' + currentDetailMovie.id;
     
     navigator.clipboard.writeText(url).then(() => {
         showToast('🔗 لینک فیلم کپی شد');

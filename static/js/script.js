@@ -15,7 +15,7 @@ let userRatings = {};
 let comments = {};
 let currentDetailMovie = null;
 let currentPage = 1;
-const ITEMS_PER_PAGE = 8;
+const RESULTS_PER_PAGE = 12;  // از ۲۰ به ۱۲ کم کن
 let currentLang = localStorage.getItem('cinemachi_lang') || 'fa';
 let searchTimeout = null;
 

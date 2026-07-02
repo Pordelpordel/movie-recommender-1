@@ -402,27 +402,34 @@ function openMovieFromLink() {
     const params = new URLSearchParams(window.location.search);
     const movieId = params.get('movie');
     
-    if (movieId) {
-        // صبر می‌کنیم تا صفحه کامل بارگذاری شود
-        setTimeout(() => {
+    if (!movieId) return;
+    
+    // بررسی اینکه آیا تابع openDetail وجود دارد
+    if (typeof openDetail !== 'function') {
+        showToast('❌ تابع باز کردن فیلم پیدا نشد');
+        return;
+    }
+    
+    // تابعی که منتظر می‌ماند تا movies بارگذاری شود
+    function waitForMoviesAndOpen() {
+        if (movies && movies.length > 0) {
             const movie = movies.find(m => m.id === parseInt(movieId));
             if (movie) {
-                // توجه: نام تابع openDetail را با نام واقعی جایگزین کن
-                if (typeof openDetail === 'function') {
-                    openDetail(movie.id);
-                } else if (typeof showMovieDetail === 'function') {
-                    showMovieDetail(movie.id);
-                } else {
-                    showToast('❌ تابع باز کردن فیلم پیدا نشد');
-                }
-                // حذف پارامتر از URL بدون رفرش
+                openDetail(movie.id);
+                // حذف پارامتر از URL
                 const newUrl = window.location.pathname;
                 window.history.replaceState({}, '', newUrl);
             } else {
                 showToast('❌ فیلم مورد نظر یافت نشد');
             }
-        }, 800);
+        } else {
+            // اگر movies هنوز بارگذاری نشده، دوباره تلاش کن
+            setTimeout(waitForMoviesAndOpen, 300);
+        }
     }
+    
+    // شروع فرآیند با تاخیر
+    setTimeout(waitForMoviesAndOpen, 500);
 }
 
 // =============================================

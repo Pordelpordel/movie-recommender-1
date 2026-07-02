@@ -91,17 +91,24 @@ function loginUser() {
     currentUser = email;
     currentUserData = userData;
     
+    // ذخیره در localStorage
     localStorage.setItem('cinemachi_current_user', email);
+    localStorage.setItem('user_name', getUserDisplayName(email));
+    localStorage.setItem('user_email', email);
     
     document.getElementById('loginPage').style.display = 'none';
     document.getElementById('mainApp').style.display = 'block';
     
-    initApp();
+    // به‌روزرسانی نام و ایمیل در هدر
+    const nameEl = document.querySelector('.user-name');
+    const emailEl = document.querySelector('.user-email');
+    if (nameEl) nameEl.textContent = getUserDisplayName(email);
+    if (emailEl) emailEl.textContent = email;
     
+    initApp();
     showToast(`👋 خوش آمدید ${getUserDisplayName(email)}!`);
 }
 
-// ===== خروج از حساب =====
 function logoutUser() {
     if (confirm('آیا مطمئن هستید که می‌خواهید خارج شوید؟')) {
         localStorage.removeItem('user_name');
@@ -131,6 +138,13 @@ function checkCurrentUser() {
             currentUserData = data;
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('mainApp').style.display = 'block';
+            
+            // به‌روزرسانی نام و ایمیل در هدر
+            const nameEl = document.querySelector('.user-name');
+            const emailEl = document.querySelector('.user-email');
+            if (nameEl) nameEl.textContent = getUserDisplayName(saved);
+            if (emailEl) emailEl.textContent = saved;
+            
             return true;
         } else {
             localStorage.removeItem('cinemachi_current_user');
@@ -1123,7 +1137,25 @@ function initApp() {
 document.addEventListener('DOMContentLoaded', function() {
     loadTheme();
     
-    if (!checkCurrentUser()) {
+    // بازیابی اطلاعات کاربر از localStorage
+    const savedUser = localStorage.getItem('cinemachi_current_user');
+    if (savedUser) {
+        const data = getUserData(savedUser);
+        if (data) {
+            currentUser = savedUser;
+            currentUserData = data;
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            
+            // به‌روزرسانی نام و ایمیل در هدر
+            const nameEl = document.querySelector('.user-name');
+            const emailEl = document.querySelector('.user-email');
+            if (nameEl) nameEl.textContent = getUserDisplayName(savedUser);
+            if (emailEl) emailEl.textContent = savedUser;
+            
+            initApp();
+        }
+    } else {
         document.getElementById('loginPage').style.display = 'flex';
         document.getElementById('mainApp').style.display = 'none';
     }

@@ -373,6 +373,8 @@ function clearSearch() {
 // =============================================
 // کپی لینک فیلم و باز کردن فیلم با لینک
 // =============================================
+
+// ===== کپی لینک فیلم =====
 function copyMovieLink() {
     if (!currentDetailMovie) {
         showToast('❌ ابتدا یک فیلم را انتخاب کنید');
@@ -395,15 +397,25 @@ function copyMovieLink() {
     });
 }
 
+// ===== باز کردن فیلم از لینک =====
 function openMovieFromLink() {
     const params = new URLSearchParams(window.location.search);
     const movieId = params.get('movie');
     
     if (movieId) {
+        // صبر می‌کنیم تا صفحه کامل بارگذاری شود
         setTimeout(() => {
             const movie = movies.find(m => m.id === parseInt(movieId));
             if (movie) {
-                openDetail(movie.id);
+                // توجه: نام تابع openDetail را با نام واقعی جایگزین کن
+                if (typeof openDetail === 'function') {
+                    openDetail(movie.id);
+                } else if (typeof showMovieDetail === 'function') {
+                    showMovieDetail(movie.id);
+                } else {
+                    showToast('❌ تابع باز کردن فیلم پیدا نشد');
+                }
+                // حذف پارامتر از URL بدون رفرش
                 const newUrl = window.location.pathname;
                 window.history.replaceState({}, '', newUrl);
             } else {

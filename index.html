@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 سینماچی - سیستم کامل مدیریت فیلم</title>
+    <!-- لینک CSS فقط یک بار در هدر -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- ===== صفحه ورود ===== -->
+    <div class="login-page" id="loginPage">
+        <div class="login-box">
+            <h1 id="loginTitle">🎬 سینماچی</h1>
+            <p class="subtitle" id="loginSubtitle">✨ برای ادامه، ایمیل خود را وارد کنید ✨</p>
+            <div class="form-group">
+                <label>📧 آدرس ایمیل</label>
+                <input type="email" id="loginEmail" placeholder="example@email.com">
+            </div>
+            <button class="login-btn" id="loginBtn" onclick="loginUser()">🚀 ورود / ثبت نام</button>
+            <div class="error-msg" id="loginError"></div>
+            <div class="demo-hint" id="loginHint">💡 با وارد کردن هر ایمیل، حساب کاربری جدید ساخته می‌شود</div>
+        </div>
+    </div>
+
+    <!-- ===== دکمه تغییر تم ===== -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="تغییر تم">🌓</button>
+
+    <div class="container" id="mainApp" style="display:none;">
+        <!-- ===== هدر ===== -->
+        <div class="header">
+            <h1>🎬 <span>سینماچی</span></h1>
+            <p class="subtitle" id="mainSubtitle">✨ هوشمندترین سیستم مدیریت فیلم ایران ✨</p>
+            <div class="user-profile">
+    		<span class="user-name">{{ user_name }}</span>
+    		<span class="user-email">{{ user_email }}</span>
+    		<button class="logout-btn" onclick="logoutUser()">خروج</button>
+	    </div>
+            <div class="badge-group">
+                <span class="badge">🎬 <span id="movieCount">0</span> فیلم</span>
+                <span class="badge">❤️ <span id="favCount">0</span> علاقه‌مندی</span>
+                <span class="badge">📋 <span id="watchlistCount">0</span> لیست تماشا</span>
+                <span class="badge">✅ <span id="watchedCount">0</span> دیده‌شده</span>
+            </div>
+        </div>
+
+        <!-- ===== تب‌ها ===== -->
+        <div class="tabs" id="mainTabs">
+            <button class="tab-btn active" data-tab="movies" id="tabMovies">🎬 فیلم‌ها</button>
+            <button class="tab-btn" data-tab="search" id="tabSearch">🔍 جستجو</button>
+            <button class="tab-btn" data-tab="add" id="tabAdd">➕ افزودن</button>
+            <button class="tab-btn" data-tab="recommend" id="tabRecommend">🎯 پیشنهاد</button>
+            <button class="tab-btn" data-tab="top" id="tabTop">🏆 برترین‌ها</button>
+            <button class="tab-btn" data-tab="favorites" id="tabFavorites">❤️ علاقه‌مندی</button>
+            <button class="tab-btn" data-tab="watchlist" id="tabWatchlist">📋 لیست تماشا</button>
+            <button class="tab-btn" data-tab="stats" id="tabStats">📊 آمار</button>
+            <button class="tab-btn" data-tab="profile" id="tabProfile">👤 پروفایل</button>
+        </div>
+
+        <!-- ===== تب فیلم‌ها ===== -->
+        <div id="movies" class="tab-content active">
+            <h2>🎬 گنجینه فیلم‌ها</h2>
+            <div class="filter-bar">
+                <button class="btn-primary" onclick="applyFilters()">🔄 بارگیری</button>
+                <select id="filterGenre" onchange="applyFilters()">
+                    <option value="">همه ژانرها</option>
+                    <option>درام</option><option>اکشن</option><option>کمدی</option>
+                    <option>عاشقانه</option><option>علمی تخیلی</option><option>جنایی</option>
+                    <option>ماجراجویی</option><option>ترسناک</option><option>فانتزی</option>
+                    <option>انیمیشن</option><option>مستند</option>
+                </select>
+                <select id="filterYear" onchange="applyFilters()">
+                    <option value="">همه سال‌ها</option>
+                    <option>۲۰۲۶</option><option>۲۰۲۵</option><option>۲۰۲۴</option>
+                    <option>۲۰۲۳</option><option>۲۰۲۲</option><option>۲۰۲۱</option>
+                    <option>۲۰۲۰</option><option>۲۰۱۹</option><option>۲۰۱۸</option>
+                    <option>۲۰۱۷</option><option>۲۰۱۶</option><option>۲۰۱۵</option>
+                    <option>۲۰۱۴</option><option>۲۰۱۳</option><option>۲۰۱۲</option>
+                    <option>۲۰۱۱</option><option>۲۰۱۰</option>
+                </select>
+                <select id="filterRating" onchange="applyFilters()">
+                    <option value="">همه امتیازها</option>
+                    <option value="9">۹+ ⭐</option>
+                    <option value="8">۸+ ⭐</option>
+                    <option value="7">۷+ 👍</option>
+                    <option value="6">۶+</option>
+                    <option value="5">۵+</option>
+                </select>
+                <select id="sortMovies" onchange="applyFilters()">
+                    <option value="rating-desc">امتیاز (نزولی)</option>
+                    <option value="rating-asc">امتیاز (صعودی)</option>
+                    <option value="year-desc">سال (جدید)</option>
+                    <option value="year-asc">سال (قدیم)</option>
+                    <option value="name">نام</option>
+                </select>
+                <input type="text" id="searchInputQuick" placeholder="🔍 جستجوی سریع..." oninput="applyFilters()">
+            </div>
+            <div id="moviesList" class="movies-grid"></div>
+            <div id="pagination" class="pagination"></div>
+        </div>
+
+        <!-- ===== تب جستجو ===== -->
+        <div id="search" class="tab-content">
+            <h2>🔍 جستجو در TMDB</h2>
+            <div class="form-group">
+                <label>نام فیلم</label>
+                <input type="text" id="searchInput" placeholder="مثال: The Matrix" onkeyup="searchMoviesDelayed()">
+                <div id="searchSuggestions" style="background:white; border-radius:10px; margin-top:5px; max-height:180px; overflow-y:auto; display:none; box-shadow:0 5px 15px rgba(0,0,0,0.1);"></div>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button class="btn-primary" onclick="searchMovies()">🔍 جستجو</button>
+                <button class="btn-danger" onclick="clearSearch()">🗑️ پاک کردن</button>
+            </div>
+            <div id="searchResults" class="search-results-grid" style="margin-top:15px;"></div>
+        </div>
+
+        <!-- ===== تب افزودن دستی ===== -->
+        <div id="add" class="tab-content">
+            <h2>➕ افزودن فیلم</h2>
+            <div class="form-row">
+                <div class="form-group"><label>نام فیلم</label><input type="text" id="newName" placeholder="نام فیلم"></div>
+                <div class="form-group"><label>ژانر</label>
+                    <select id="newGenre">
+                        <option>درام</option><option>اکشن</option><option>کمدی</option>
+                        <option>عاشقانه</option><option>علمی تخیلی</option><option>جنایی</option>
+                        <option>ماجراجویی</option><option>ترسناک</option><option>فانتزی</option>
+                        <option>انیمیشن</option><option>مستند</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>امتیاز (0-10)</label><input type="number" id="newRating" step="0.1" min="0" max="10" placeholder="مثلاً 8.5"></div>
+                <div class="form-group"><label>سال انتشار</label><input type="text" id="newYear" placeholder="مثال: ۲۰۲۴"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>کارگردان</label><input type="text" id="newDirector" placeholder="نام کارگردان"></div>
+                <div class="form-group"><label>مدت زمان (دقیقه)</label><input type="number" id="newDuration" placeholder="مثلاً ۱۲۰"></div>
+            </div>
+            <div class="form-group"><label>خلاصه داستان</label><textarea id="newDesc" rows="2" placeholder="خلاصه داستان فیلم..."></textarea></div>
+            <div class="form-row">
+                <div class="form-group"><label>بازیگران (با کاما جدا کنید)</label><input type="text" id="newCast" placeholder="مثلاً لئوناردو دیکاپریو، برد پیت"></div>
+                <div class="form-group"><label>وضعیت</label>
+                    <select id="newStatus">
+                        <option value="showing">در حال اکران</option>
+                        <option value="released" selected>اکران شده</option>
+                        <option value="coming">در راه</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="addMovie()">➕ افزودن فیلم</button>
+            <div id="addResult" style="margin-top:12px;"></div>
+        </div>
+
+        <!-- ===== تب پیشنهاد ===== -->
+        <div id="recommend" class="tab-content">
+            <h2>🎯 پیشنهاد ویژه</h2>
+            <div class="form-group">
+                <label>ژانر مورد علاقه</label>
+                <select id="recommendGenre">
+                    <option>درام</option><option>اکشن</option><option>کمدی</option>
+                    <option>عاشقانه</option><option>علمی تخیلی</option><option>جنایی</option>
+                    <option>ماجراجویی</option><option>ترسناک</option><option>فانتزی</option>
+                    <option>انیمیشن</option><option>مستند</option>
+                </select>
+            </div>
+            <button class="btn-primary" onclick="recommendMovies()">✨ دریافت پیشنهاد</button>
+            <div id="recommendResults" class="movies-grid"></div>
+        </div>
+
+        <!-- ===== تب برترین‌ها ===== -->
+        <div id="top" class="tab-content">
+            <h2>🏆 فیلم‌های برتر</h2>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
+                <label style="font-weight:bold; font-size:0.9rem;">تعداد: </label>
+                <input type="number" id="topCount" value="5" min="1" max="20" style="width:70px; padding:6px; border-radius:8px; border:2px solid #e0e0e0;">
+                <button class="btn-primary" onclick="loadTopMovies()">نمایش</button>
+            </div>
+            <div id="topResults" class="movies-grid"></div>
+        </div>
+
+        <!-- ===== تب علاقه‌مندی‌ها ===== -->
+        <div id="favorites" class="tab-content">
+            <h2>❤️ فیلم‌های مورد علاقه من</h2>
+            <div id="favoritesList" class="movies-grid"></div>
+        </div>
+
+        <!-- ===== تب لیست تماشا ===== -->
+        <div id="watchlist" class="tab-content">
+            <h2>📋 لیست تماشا <span id="watchlistBadge" style="background:#ffd700; color:#1a1a2e; padding:2px 12px; border-radius:50px; font-size:0.75rem;">0</span></h2>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+                <button class="btn-primary" onclick="exportWatchlist()">📤 خروجی JSON</button>
+                <button class="btn-success" onclick="exportWatchlistCSV()">📊 خروجی CSV</button>
+            </div>
+            <div id="watchlistList" class="movies-grid"></div>
+        </div>
+
+        <!-- ===== تب آمار ===== -->
+        <div id="stats" class="tab-content">
+            <h2>📊 آمار سیستم</h2>
+            <button class="btn-primary" onclick="loadStats()">🔄 بارگیری</button>
+            <div id="statsContent" style="margin-top:15px;"></div>
+            <div style="margin-top:20px;">
+                <canvas id="ratingChart" style="max-height:200px; width:100%;"></canvas>
+            </div>
+            <div style="margin-top:20px;">
+                <canvas id="genreChart" style="max-height:180px; width:100%;"></canvas>
+            </div>
+        </div>
+
+        <!-- ===== تب پروفایل ===== -->
+        <div id="profile" class="tab-content">
+            <h2>👤 پروفایل کاربر</h2>
+            <div style="text-align:center; padding:15px;">
+                <div style="font-size:3.5rem;">👤</div>
+                <h3 id="profileName" style="font-size:1.1rem;">کاربر مهمان</h3>
+                <p id="profileEmail" style="color:#888; font-size:0.85rem;"></p>
+                <p id="profileJoinDate" style="color:#888; font-size:0.85rem;">تاریخ عضویت: امروز</p>
+                <div class="profile-stats">
+                    <div class="profile-stat-box" style="background:linear-gradient(135deg,#667eea,#764ba2);">
+                        <div class="num" id="profileMovies">0</div>
+                        <div class="label">فیلم‌ها</div>
+                    </div>
+                    <div class="profile-stat-box" style="background:linear-gradient(135deg,#f093fb,#f5576c);">
+                        <div class="num" id="profileFavorites">0</div>
+                        <div class="label">علاقه‌مندی</div>
+                    </div>
+                    <div class="profile-stat-box" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">
+                        <div class="num" id="profileWatchlist">0</div>
+                        <div class="label">لیست تماشا</div>
+                    </div>
+                </div>
+                <button class="btn-danger" style="margin-top:15px; font-size:0.8rem; padding:6px 18px;" onclick="resetUserData()">🗑️ بازنشانی همه داده‌ها</button>
+            </div>
+        </div>
+
+        <!-- ===== مودال جزئیات فیلم ===== -->
+        <div id="detailModal" class="modal">
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeDetailModal()">✕</button>
+                <h2 id="detailTitle">🎬 نام فیلم</h2>
+                <div class="poster-container">
+                    <img id="detailPoster" src="" alt="پوستر">
+                </div>
+                <div class="detail-row"><strong>🎭 ژانر:</strong> <span id="detailGenre"></span></div>
+                <div class="detail-row"><strong>⭐ امتیاز:</strong> <span id="detailRating" class="rating-stars"></span></div>
+                <div class="detail-row"><strong>📅 سال:</strong> <span id="detailYear"></span></div>
+                <div class="detail-row"><strong>🎬 کارگردان:</strong> <span id="detailDirector"></span></div>
+                <div class="detail-row"><strong>⏱️ مدت زمان:</strong> <span id="detailDuration"></span></div>
+                <div class="detail-row"><strong>🎭 بازیگران:</strong> <span id="detailCast"></span></div>
+                <div class="detail-row"><strong>📝 خلاصه:</strong> <span id="detailDesc"></span></div>
+                <div class="detail-row"><strong>📌 وضعیت:</strong> <span id="detailStatus"></span></div>
+                <div class="detail-row"><strong>❤️ وضعیت:</strong> <span id="detailFavStatus">ثبت نشده</span></div>
+                <div class="detail-row"><strong>📋 لیست تماشا:</strong> <span id="detailWatchlistStatus">ثبت نشده</span></div>
+
+                <div class="detail-row">
+                    <strong>🔗 لینک‌ها:</strong>
+                    <div class="link-group">
+                        <a id="detailTrailerLink" href="#" target="_blank" class="btn-trailer" style="color:white;">▶️ تریلر</a>
+                        <a id="detailImdbLink" href="#" target="_blank" class="btn-imdb" style="color:#000;">🎬 IMDb</a>
+                        <a id="detailWatchLink" href="#" target="_blank" class="btn-primary" style="background:linear-gradient(135deg,#4caf50,#2e7d32);">👁️ مشاهده</a>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <strong>⭐ امتیاز شما:</strong>
+                    <div class="star-rating" id="userRating">
+                        <input type="radio" name="stars" id="star5" value="5" onchange="rateMovie(currentDetailMovie?.id, 5)">
+                        <label for="star5">★</label>
+                        <input type="radio" name="stars" id="star4" value="4" onchange="rateMovie(currentDetailMovie?.id, 4)">
+                        <label for="star4">★</label>
+                        <input type="radio" name="stars" id="star3" value="3" onchange="rateMovie(currentDetailMovie?.id, 3)">
+                        <label for="star3">★</label>
+                        <input type="radio" name="stars" id="star2" value="2" onchange="rateMovie(currentDetailMovie?.id, 2)">
+                        <label for="star2">★</label>
+                        <input type="radio" name="stars" id="star1" value="1" onchange="rateMovie(currentDetailMovie?.id, 1)">
+                        <label for="star1">★</label>
+                    </div>
+                    <div id="userRatingDisplay" style="text-align:center; color:#888; font-size:0.85rem;">هنوز امتیاز نداده‌اید</div>
+                </div>
+
+                <div class="detail-row">
+                    <strong>💬 نظرات کاربران:</strong>
+                    <div id="commentsList"></div>
+                    <div style="margin-top:8px;">
+                        <textarea id="newComment" rows="2" placeholder="نظر خود را بنویسید..." style="width:100%; padding:8px 12px; border-radius:10px; border:2px solid #e0e0e0; resize:vertical; font-size:0.85rem;"></textarea>
+                        <button class="btn-primary" onclick="addComment()" style="margin-top:4px; font-size:0.8rem; padding:6px 16px;">📝 ارسال نظر</button>
+                    </div>
+                </div>
+
+                <div class="detail-row actions">
+                    <button class="btn-primary" id="detailFavBtn" onclick="toggleFavoriteDetail()">❤️ افزودن به علاقه‌مندی‌ها</button>
+                    <button class="btn-warning" id="detailWatchlistBtn" onclick="toggleWatchlistDetail()">📋 افزودن به لیست تماشا</button>
+                    <button class="btn-danger" onclick="deleteMovieDetail()">🗑️ حذف فیلم</button>
+                </div>
+                <div class="detail-row actions">
+                    <button class="btn-primary" onclick="shareMovie()">📤 اشتراک‌گذاری</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== دکمه بازگشت به بالا ===== -->
+        <button id="goToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+        <!-- ===== فوتر ===== -->
+        <footer class="footer">
+            <p id="footerText">© ۱۴۰۴ تمامی حقوق برای <strong>سینماچی</strong> محفوظ است.</p>
+            <div class="lang-btns">
+                <button onclick="changeLanguage('fa')" id="langFa" class="active-lang">🇮🇷 فارسی</button>
+                <button onclick="changeLanguage('en')" id="langEn">🇬🇧 English</button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- فقط یک بار و در انتهای body -->
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
